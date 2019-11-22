@@ -31,5 +31,5 @@ $ python src/main.py tests/test_input.txt
 
 ```sh
 $ docker build -t gojek-submission-satwik .
-$ docker run -it gojek-submission-satwik
+$ docker run -it gojek-submission-satwik tests/test_input.txt
 ```
