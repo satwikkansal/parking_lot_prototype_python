@@ -32,7 +32,7 @@ class ParkingLotController:
 
         elif command is Command.LEAVE:
             slot_number = int(args[0])
-            car = parking_lot.evict(slot_number)
+            car = parking_lot.evict(slot_number - 1)
             if car:
                 output = f'Slot number {slot_number} is free'
             else:
@@ -58,9 +58,11 @@ class ParkingLotController:
 
         elif command is Command.STATUS:
             car_index = parking_lot.get_parked_cars_information()
-            output_lines = ['Slot No.\tRegistration No\tColour']
+            c1, c2, c3 = "Slot No.", "Registration No", "Colour"
+            w1, w2, w3 = len(c1), len(c2), len(c3)
+            output_lines = [f'{c1}    {c2}    {c3}']
             for registration_number, ticket in car_index.items():
-                output_lines.append(f'{ticket.slot}\t{registration_number}\t{ticket.car.color}')
+                output_lines.append(f'{ticket.slot: <{w1}}    {registration_number: <{w2}}    {ticket.car.color}')
             output = '\n'.join(output_lines)
 
         elif command is Command.EXIT:
