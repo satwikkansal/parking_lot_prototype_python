@@ -1,9 +1,19 @@
+#!/usr/bin/env bash
 # * Install dependencies
 # * Build/Compile
 # * Run Test Suit to validate
 #
 # After this is run, bin/parking_lot
 # should Just Work.
-cd "$(dirname "${BASH_SOURCE[0]}")"
-cd ..
-docker build -t gojek-submission-satwik .
+
+echo "Checking Python version..."
+
+if python -c 'import sys; exit(1) if sys.version_info.major < 3 or sys.version_info.minor < 7 else exit(0)'
+then
+	echo "You already have correct Python version installed. Noting to setup :)"
+else
+	echo "Python version less than 3.7 detected, running docker setup..."
+	cd "$(dirname "${BASH_SOURCE[0]}")"
+	cd ..
+	docker build -t gojek-submission-satwik .
+fi
