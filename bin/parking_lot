@@ -19,10 +19,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 # Important: Above commands is just examples, please modify to suit your requirement as necessary
 
 file_path=$1
-if [ -n "$file_path" ] ; then
-    docker run -it gojek-submission-satwik $file_path
-    #python $DIR/../src/main.py $filepath
+if python -c 'import sys; exit(1) if sys.version_info.major < 3 or sys.version_info.minor < 7 else exit(0)'
+then
+	python $DIR/../src/main.py $file_path
 else
-    docker run -it gojek-submission-satwik
-    #python $DIR/../src/main.py
+	docker run -it gojek-submission-satwik $file_path
 fi
