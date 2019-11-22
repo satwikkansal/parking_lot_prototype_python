@@ -1,4 +1,8 @@
+import os
+import sys
 import unittest
+
+sys.path.append(os.path.abspath('.'))
 
 from src.models import ParkingLot, Car
 
@@ -92,8 +96,8 @@ class TestModels(unittest.TestCase):
         yet_another_car = Car("yet-another-car-number", "Blue")
         ticket = parking_lot.park(yet_another_car)
 
-        self.assertEqual([0], parking_lot.get_slots_by_color(self.test_car.color))
-        self.assertCountEqual([1, 2], parking_lot.get_slots_by_color(another_car.color))
+        self.assertEqual([1], parking_lot.get_slots_by_color(self.test_car.color))
+        self.assertCountEqual([2, 3], parking_lot.get_slots_by_color(another_car.color))
         self.assertEqual([], parking_lot.get_slots_by_color("Some random color"))
 
     def test_get_slot_number_for_car(self):
@@ -103,6 +107,9 @@ class TestModels(unittest.TestCase):
         another_car = Car("another-car-number", "Blue")
         ticket = parking_lot.park(another_car)
 
-        self.assertEqual(0, parking_lot.get_slot_number_for_car(self.test_car.registration_number))
+        self.assertEqual(1, parking_lot.get_slot_number_for_car(self.test_car.registration_number))
         parking_lot.evict(0)
         self.assertIsNone(parking_lot.get_slot_number_for_car(self.test_car.registration_number))
+
+if __name__ == '__main__':
+    unittest.main()
