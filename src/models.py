@@ -27,7 +27,7 @@ class ParkingLot:
         self.slots = [None] * self.size
         # Using these as an index for fast execution of color
         # and registration lookups
-        self.color_index = defaultdict(set)
+        self.color_index = defaultdict(dict)
         self.car_index = {}
 
     def is_full(self):
@@ -58,13 +58,13 @@ class ParkingLot:
             return None
 
         # Generate a ticket
-        ticket = Ticket(car, next_available_slot)
+        ticket = Ticket(car, next_available_slot + 1)
         # Park the car
         self.slots[next_available_slot] = car
 
         # Update the indices
         self.car_index[car.registration_number] = ticket
-        self.color_index[car.color].add(ticket)
+        self.color_index[car.color][ticket] = True
         return ticket
 
     def evict(self, slot_number: int):
@@ -83,7 +83,7 @@ class ParkingLot:
         # Update the indices
         ticket = self.car_index[car.registration_number]
         del self.car_index[car.registration_number]
-        self.color_index[car.color].remove(ticket)
+        del self.color_index[car.color][ticket]
         return car
 
     def get_cars_by_color(self, color: str):
